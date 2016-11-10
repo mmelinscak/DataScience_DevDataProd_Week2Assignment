@@ -1,1 +1,3 @@
-# DataScience_DevDataProd_Week2Assignment
+#Coursera Data Science Specialization 
+##Devoloping Data Products
+##Week2 Assignement

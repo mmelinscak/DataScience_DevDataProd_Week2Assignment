@@ -1,0 +1,38 @@
+---
+title: "Leaflet map - Population of world cities"
+author: "Martina Melinscak"
+date: 'November 11, 2016'
+always_allow_html: yes
+---
+
+
+```{r, echo=FALSE}
+
+library(leaflet)
+data <- read.csv("world_cities.csv", header = TRUE, sep = ",")
+N <- nrow(data)
+
+for(i in 1:N){
+        if (data$pop[i] >= 1000000) {data[i, 'popcol'] <- "magenta"}
+        else if (700000 <= data$pop[i] & data$pop[i] < 1000000) {data[i, 'popcol'] <- "blue"}
+        else if (300000 <= data$pop[i] & data$pop[i] < 700000) {data[i, 'popcol'] <- "gray"}
+        else if (100000 <= data$pop[i] & data$pop[i] < 300000) {data[i, 'popcol'] <- "green"}
+        else if (50000 <= data$pop[i] & data$pop[i] < 100000) {data[i, 'popcol']<- "red"} 
+        else if (0 <= data$pop[i] & data$pop[i] < 50000) {data[i, 'popcol'] <- "orange"} 
+        
+}
+
+
+lab <- c("0-50000", "50000-100000", "100000-300000", "300000-700000", "700000-10000000", ">10000000")
+col <- c("orange", "red", "green", "gray", "blue", "magenta") 
+m <- leaflet(data) %>% addTiles() %>% setView(lng=15.966568, lat=45.815399, zoom = 3)%>%
+  addCircles(lng = ~lng, lat = ~lat, color= data$popcol , fill = TRUE, weight = 1, radius = ~sqrt(pop+100)*50, popup = ~city) %>%
+  addLegend(position = 'bottomright',
+  colors = col[1:6],
+  labels =lab[1:6] , opacity = 1,
+  title = 'Population')
+m
+```
+
+
+
